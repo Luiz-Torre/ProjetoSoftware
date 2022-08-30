@@ -1,28 +1,15 @@
-https://dev.mysql.com/downloads/
-
-Download MySQL Community Server
-
-Últimas versões:
-- 5.5
-- 5.6
-- 5.7
-- 8.0.12 (atual)
-
-DROP TABLE PRODUTO;
-
-CREATE TABLE banco.produto (
+CREATE TABLE shopping.shopping (
   id INT NOT NULL AUTO_INCREMENT,
   nome VARCHAR(30) NOT NULL,
-  lance_minimo DECIMAL(8, 2) NOT NULL,
-  data_cadastro DATE NOT NULL,
-  data_venda DATE DEFAULT NULL,
+   rua VARCHAR(30) NOT NULL,
+   bairro VARCHAR(30) NOT NULL,
+   estado VARCHAR(30) NOT NULL,
+   versao INT DEFAULT 0,
   PRIMARY KEY (id)
 )
 ENGINE = INNODB
 CHARACTER SET utf8mb4;
 
-INSERT INTO PRODUTO(NOME, LANCE_MINIMO, DATA_CADASTRO)
-VALUES('TV SAMSUNG 20 POL', 2000, curdate());
+INSERT INTO shopping.shopping(NOME, rua, bairro, estado)
+VALUES('plaza', 'rua 1', 'nit', 'niteroi');
 
-INSERT INTO PRODUTO(NOME, LANCE_MINIMO, DATA_CADASTRO)
-VALUES('TV SAMSUNG 22 POL', 2500, curdate());

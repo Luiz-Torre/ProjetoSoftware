@@ -5,6 +5,7 @@ import java.util.List;
 import javax.persistence.EntityManager;
 import javax.persistence.EntityTransaction;
 import javax.persistence.LockModeType;
+import javax.persistence.OptimisticLockException;
 
 public class JPAShoppingDAO implements ShoppingDAO
 {	
@@ -46,7 +47,7 @@ public class JPAShoppingDAO implements ShoppingDAO
 		}
 	}
 
-	public void altera(Shopping umShopping) throws ShoppingNaoEncontradoException
+	public void altera(Shopping umShopping) throws ShoppingNaoEncontradoException, VersaoObsoletaException
 	{	EntityManager em = null;
 		EntityTransaction tx = null;
 		Shopping shopping = null;
@@ -67,6 +68,11 @@ public class JPAShoppingDAO implements ShoppingDAO
 			em.merge(umShopping); 
 			tx.commit();
 		} 
+		catch(OptimisticLockException e) {
+			if(tx != null) {
+				tx.rollback();
+			} throw new VersaoObsoletaException("Erro ao efetuar a operação devido ao fato de os dados terem sidos alterados por outro usuário recentemente");
+		}
 		catch(RuntimeException e)
 		{ 
 			if (tx != null)
@@ -98,7 +104,7 @@ public class JPAShoppingDAO implements ShoppingDAO
 			
 			if(shopping == null)
 			{	tx.rollback();
-				throw new ShoppingNaoEncontradoException("Produto não encontrado");
+				throw new ShoppingNaoEncontradoException("Shopping não encontrado");
 			}
 
 			em.remove(shopping);
@@ -152,7 +158,7 @@ public class JPAShoppingDAO implements ShoppingDAO
 
 
 			@SuppressWarnings("unchecked")
-			List<Shopping> shopping = em.createQuery("select s from Shopping s order by p.id").getResultList();
+			List<Shopping> shopping = em.createQuery("select s from Shopping s order by s.id").getResultList();
 			// Retorna um List vazio caso a tabela correspondente esteja vazia.
 			
 			return shopping;

@@ -4,7 +4,7 @@ import java.util.List;
 import corejava.Console;
 
 public class Principal {
-	public static void main(String[] args) {
+	public static void main(String[] args) throws VersaoObsoletaException {
 		String nome;
 		String rua;
 		String bairro;
@@ -16,7 +16,7 @@ public class Principal {
 		boolean continua = true;
 		while (continua) {
 			System.out.println('\n' + "O que você deseja fazer?");
-			System.out.println('\n' + "1. Cadastrar um produto");
+			System.out.println('\n' + "1. Cadastrar um Shopping");
 			System.out.println("2. Alterar dados de um Shopping");
 			System.out.println("3. Remover um shopping");
 			System.out.println("4. Listar todos os shoppings");
@@ -29,7 +29,7 @@ public class Principal {
 				nome = Console.readLine('\n' + "Informe o nome do Shopping: ");
 				bairro = Console.readLine('\n' + "Informe o nome do bairro do Shopping: ");
 				rua = Console.readLine('\n' + "Informe o nome da rua do Shopping: ");
-				estado = Console.readLine("Informe o nome do estado do Shopping");
+				estado = Console.readLine("\nInforme o nome do estado do Shopping");
 
 				umShopping = new Shopping(nome, bairro, rua, estado);
 
@@ -52,14 +52,14 @@ public class Principal {
 
 				System.out.println('\n' + "Número = " + umShopping.getId() + "    Nome = " + umShopping.getNome()
 						+ "    Rua = " + umShopping.getRua() + "    Bairro = " + umShopping.getBairro()
-						+ "    Estado = " + umShopping.getEstado()
+						+ "    Estado = " + umShopping.getEstado() + "    Versão = " + umShopping.getVersao()
 
 				);
 
-				System.out.println('\n' + "O que você deseja alterar?");
-				System.out.println('\n' + "1. Nome");
-				System.out.println('\n' + "2. Rua");
-				System.out.println('\n' + "3. Bairro");
+				System.out.println("O que você deseja alterar?");
+				System.out.println("1. Nome");
+				System.out.println("2. Rua");
+				System.out.println("3. Bairro");
 
 				System.out.println("4. Estado");
 
@@ -81,7 +81,10 @@ public class Principal {
 					catch (ShoppingNaoEncontradoException e) {
 						System.out.println('\n' + e.getMessage());
 					}
+					catch(VersaoObsoletaException e) {
+						System.out.println('\n' + e.getMessage());
 
+					}
 					break;
 
 				case 2:
@@ -94,7 +97,10 @@ public class Principal {
 					} catch (ShoppingNaoEncontradoException e) {
 						System.out.println('\n' + e.getMessage());
 					}
+					catch(VersaoObsoletaException e) {
+						System.out.println('\n' + e.getMessage());
 
+					}
 					break;
 
 				case 3:
@@ -107,7 +113,10 @@ public class Principal {
 					} catch (ShoppingNaoEncontradoException e) {
 						System.out.println('\n' + e.getMessage());
 					}
+					catch(VersaoObsoletaException e) {
+						System.out.println('\n' + e.getMessage());
 
+					}
 					break;
 				case 4:
 					String novoEstado = Console.readLine("Digite o nome do novo Estado ");
@@ -119,7 +128,10 @@ public class Principal {
 					} catch (ShoppingNaoEncontradoException e) {
 						System.out.println('\n' + e.getMessage());
 					}
+					catch(VersaoObsoletaException e) {
+						System.out.println('\n' + e.getMessage());
 
+					}
 					break;
 				default:
 					System.out.println('\n' + "Opção inválida!");
@@ -140,7 +152,7 @@ public class Principal {
 
 				System.out.println('\n' + "Número = " + umShopping.getId() + "    Nome = " + umShopping.getNome());
 
-				String resp = Console.readLine('\n' + "Confirma a remoção do produto?");
+				String resp = Console.readLine('\n' + "Confirma a remoção do Shopping? Digite s para confirmar");
 
 				if (resp.equals("s")) {
 					try {
@@ -150,7 +162,7 @@ public class Principal {
 						System.out.println('\n' + e.getMessage());
 					}
 				} else {
-					System.out.println('\n' + "Produto não removido.");
+					System.out.println('\n' + "Shopping não removido.");
 				}
 
 				break;

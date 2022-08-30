@@ -1,16 +1,18 @@
 package projetosoftware;
 
-import java.beans.Transient;
-import java.sql.Date;
-
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.Table;
+import javax.persistence.Version;
 
+import org.hibernate.annotations.DynamicInsert;
+import org.hibernate.annotations.DynamicUpdate;
 
+@DynamicInsert
+@DynamicUpdate
 @SuppressWarnings("unused")
 @Entity
 @Table(name="shopping")
@@ -24,7 +26,13 @@ public class Shopping
 	private String bairro;
 	private String estado;
 
-   // Construtor padrão, obrigatório ter!!
+	private int versao;
+	
+	
+  
+
+
+	// Construtor padrão, obrigatório ter!!
 	public Shopping()
 	{
 	}
@@ -74,7 +82,10 @@ public class Shopping
 	{	return estado;
 	}
 	
-
+	@Version
+	 public int getVersao() {
+			return versao;
+		}
 
 	// ********* Métodos do Tipo Set *********
 
@@ -86,6 +97,12 @@ public class Shopping
 
 	public void setNome(String nome)
 	{	this.nome = nome;
+	}
+
+
+
+	public void setVersao(int versao) {
+		this.versao = versao;
 	}
 
 

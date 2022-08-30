@@ -8,7 +8,7 @@ public interface ShoppingDAO
 	long inclui(Shopping umShopping); 
 
 	void altera(Shopping umShopping)
-		throws ShoppingNaoEncontradoException; 
+		throws ShoppingNaoEncontradoException, VersaoObsoletaException; 
 	
 	void exclui(long id) 
 		throws ShoppingNaoEncontradoException; 
