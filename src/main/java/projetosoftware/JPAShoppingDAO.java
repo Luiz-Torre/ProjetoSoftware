@@ -56,14 +56,15 @@ public class JPAShoppingDAO implements ShoppingDAO
 			tx = em.getTransaction();
 			tx.begin();
 			
-==>
 			
-			if(produto == null)
+			shopping = em.find(Shopping.class,  umShopping.getId(), LockModeType.PESSIMISTIC_WRITE);
+			
+			if(shopping == null)
 			{
-==>	
-==>
+				tx.rollback();
+				throw new ShoppingNaoEncontradoException("Shopping não encontrado");
 			}
-==>	
+			em.merge(umShopping); 
 			tx.commit();
 		} 
 		catch(RuntimeException e)
@@ -83,7 +84,7 @@ public class JPAShoppingDAO implements ShoppingDAO
 		}
 	}
 
-	public void exclui(long numero) throws ProdutoNaoEncontradoException 
+	public void exclui(long numero) throws ShoppingNaoEncontradoException 
 	{	EntityManager em = null;
 		EntityTransaction tx = null;
 		
@@ -93,14 +94,14 @@ public class JPAShoppingDAO implements ShoppingDAO
 			tx = em.getTransaction();
 			tx.begin();
 
-==>			Produto produto = em.find(Produto.class, new Long(numero), LockModeType.PESSIMISTIC_WRITE);
+			Shopping shopping = em.find(Shopping.class, new Long(numero));
 			
-			if(produto == null)
+			if(shopping == null)
 			{	tx.rollback();
-				throw new ProdutoNaoEncontradoException("Produto não encontrado");
+				throw new ShoppingNaoEncontradoException("Produto não encontrado");
 			}
 
-==>			
+			em.remove(shopping);
 			tx.commit();
 		} 
 		catch(RuntimeException e)
@@ -120,40 +121,41 @@ public class JPAShoppingDAO implements ShoppingDAO
 		}
 	}
 
-	public Produto recuperaUmProduto(long numero) throws ProdutoNaoEncontradoException
+	public Shopping recuperaShopping(long numero) throws ShoppingNaoEncontradoException
 	{	EntityManager em = null;
 		
 		try
 		{	
 			em = FabricaDeEntityManager.criarSessao();
 
-==>			Produto umProduto = em.find(Produto.class, numero);
+			Shopping umShopping = em.find(Shopping.class, numero);
 			
 			// Características no método find():
 			// 1. É genérico: não requer um cast.
 			// 2. Retorna null caso a linha não seja encontrada no banco.
 
-			if(umProduto == null)
-			{	throw new ProdutoNaoEncontradoException("Produto não encontrado");
+			if(umShopping == null)
+			{	throw new ShoppingNaoEncontradoException("Shopping não encontrado");
 			}
-			return umProduto;
+			return umShopping ;
 		} 
 		finally
 		{   em.close();
 		}
 	}
 
-	public List<Produto> recuperaProdutos()
+	public List<Shopping> recuperaShoppings()
 	{	EntityManager em = null;
 		
 		try
 		{	em = FabricaDeEntityManager.criarSessao();
 
-==>
 
+			@SuppressWarnings("unchecked")
+			List<Shopping> shopping = em.createQuery("select s from Shopping s order by p.id").getResultList();
 			// Retorna um List vazio caso a tabela correspondente esteja vazia.
 			
-			return produtos;
+			return shopping;
 		} 
 		finally
 		{   em.close();

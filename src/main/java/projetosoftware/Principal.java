@@ -41,10 +41,10 @@ public class Principal {
 			}
 
 			case 2: {
-				int resposta = Console.readInt('\n' + "Digite o número do produto que você deseja alterar: ");
+				int resposta = Console.readInt('\n' + "Digite o número do shopping que você deseja alterar: ");
 
 				try {
-					umShopping = shoppingDAO.recuperaumShopping(resposta);
+					umShopping = shoppingDAO.recuperaShopping(resposta);
 				} catch (ShoppingNaoEncontradoException e) {
 					System.out.println('\n' + e.getMessage());
 					break;
@@ -103,7 +103,7 @@ public class Principal {
 					try {
 						shoppingDAO.altera(umShopping);
 
-						System.out.println('\n' + "Alteração do bairo feito com sucesso!");
+						System.out.println('\n' + "Alteração do bairro feito com sucesso!");
 					} catch (ShoppingNaoEncontradoException e) {
 						System.out.println('\n' + e.getMessage());
 					}
@@ -132,7 +132,7 @@ public class Principal {
 				int resposta = Console.readInt('\n' + "Digite o número do shopping que você deseja remover: ");
 
 				try {
-					umShopping = shoppingDAO.recuperaumShopping(resposta);
+					umShopping = shoppingDAO.recuperaShopping(resposta);
 				} catch (ShoppingNaoEncontradoException e) {
 					System.out.println('\n' + e.getMessage());
 					break;
@@ -157,7 +157,7 @@ public class Principal {
 			}
 
 			case 4: {
-				List<Shopping> shoppings = shoppingDAO.recuperaShopping();
+				List<Shopping> shoppings = shoppingDAO.recuperaShoppings();
 
 				for (Shopping shopping : shoppings) {
 					System.out.println('\n' + "Id = " + shopping.getId() + "  Nome = " + shopping.getNome()
